@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>わたしのかぞく</title>
+</head>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+  min-height: 100vh;
+  padding: 40px 15px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
+
+  background-color: #fffde7;
+  background-image:
+    radial-gradient(circle, #ffd54f 1.5px, transparent 1.5px),
+    radial-gradient(circle, rgba(255, 183, 197, 0.5) 3px, transparent 3px),
+    radial-gradient(circle, rgba(255, 224, 130, 0.6) 6px, transparent 6px),
+    radial-gradient(ellipse at 15% 20%, rgba(255, 255, 255, 0.9) 0%, transparent 25%),
+    radial-gradient(ellipse at 85% 15%, rgba(255, 255, 255, 0.9) 0%, transparent 25%),
+    radial-gradient(ellipse at 50% 85%, rgba(255, 255, 255, 0.9) 0%, transparent 30%),
+    linear-gradient(135deg, #fffde7 0%, #fff9c4 30%, #ffe0b2 65%, #ffccbc 100%);
+
+  background-size:
+    60px 60px,
+    90px 90px,
+    120px 120px,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+
+  background-position:
+    0 0,
+    30px 30px,
+    60px 60px,
+    center,
+    center,
+    center,
+    center;
+
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "🌸 🌼 🌸  🌺  🌸  🌼  🌸";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 2.5rem;
+  line-height: 1.8;
+  letter-spacing: 40px;
+  opacity: 0.18;
+  text-align: center;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  animation: driftFlowers 20s linear infinite;
+}
+
+@keyframes driftFlowers {
+  0%   { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-60px) rotate(2deg); }
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: -200px;
+  left: -200px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 213, 79, 0.5), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: floatOrb 10s ease-in-out infinite;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(80px, 40px) scale(1.15); }
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  bottom: -200px;
+  right: -200px;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 183, 197, 0.5), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: floatOrb2 12s ease-in-out infinite;
+}
+
+@keyframes floatOrb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-60px, -50px) scale(1.2); }
+}
+
+/* ===== JUDUL ===== */
+h1 {
+  font-size: 3rem;
+  color: #f57f17;
+  text-align: center;
+  margin-bottom: 6px;
+  letter-spacing: 5px;
+  text-shadow:
+    2px 2px 0 #fff,
+    4px 4px 8px rgba(245, 127, 23, 0.25);
+  position: relative;
+  z-index: 1;
+  animation: titlePop 1s ease-out;
+}
+
+h1::before,
+h1::after {
+  content: "🌸";
+  font-size: 2rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: sway 3s ease-in-out infinite;
+}
+h1::before { left: -50px; }
+h1::after  { right: -50px; animation-delay: -1.5s; }
+
+@keyframes sway {
+  0%, 100% { transform: translateY(-50%) rotate(-10deg); }
+  50%      { transform: translateY(-50%) rotate(10deg); }
+}
+
+@keyframes titlePop {
+  0%   { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #e65100;
+  margin-bottom: 50px;
+  letter-spacing: 3px;
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px 24px;
+  border-radius: 25px;
+  box-shadow: 0 4px 14px rgba(245, 127, 23, 0.2);
+  border: 2px dashed #ffd54f;
+}
+
+/* ===== GRID BAGAN KELUARGA ===== */
+.family-tree {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px 25px;
+  max-width: 1150px;
+  width: 100%;
+  justify-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== KARTU ANGGOTA ===== */
+.member {
+  background: linear-gradient(180deg, #ffffff 0%, #fffef5 100%);
+  border-radius: 24px;
+  padding: 22px 18px;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  box-shadow:
+    0 10px 25px rgba(245, 127, 23, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  border: 3px solid #fff59d;
+  position: relative;
+  animation: cardIn 0.7s ease-out backwards;
+}
+
+.member:nth-child(1) { animation-delay: 0.05s; }
+.member:nth-child(2) { animation-delay: 0.15s; }
+.member:nth-child(3) { animation-delay: 0.25s; }
+.member:nth-child(4) { animation-delay: 0.35s; }
+.member:nth-child(5) { animation-delay: 0.45s; }
+.member:nth-child(6) { animation-delay: 0.55s; }
+
+@keyframes cardIn {
+  0%   { opacity: 0; transform: translateY(30px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.member:hover {
+  transform: translateY(-10px) rotate(-1deg);
+  box-shadow:
+    0 16px 35px rgba(245, 127, 23, 0.35),
+    0 0 20px rgba(255, 213, 79, 0.5);
+}
+
+.member::before {
+  content: "✨";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 1rem;
+  opacity: 0.7;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.9) rotate(0deg); }
+  50%      { opacity: 1;   transform: scale(1.2) rotate(20deg); }
+}
+
+/* Label hiragana */
+.member .label {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #e65100;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  display: inline-block;
+  padding: 2px 14px;
+  background: linear-gradient(180deg, #fff9c4, #ffe082);
+  border-radius: 12px;
+  box-shadow: inset 0 -2px 0 rgba(245, 127, 23, 0.2);
+}
+
+/* Kotak foto */
+.photo-box {
+  width: 100%;
+  height: 180px;
+  background: #fffde7;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 4px solid #ffffff;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.12),
+    0 0 0 2px #ffd54f;
+  position: relative;
+  transition: transform 0.35s ease;
+}
+
+.member:hover .photo-box {
+  transform: scale(1.03);
+}
+
+.photo-box::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+
+.member:hover .photo-box::after {
+  left: 130%;
+}
+
+.photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ===== POSISI BAGAN ===== */
+.member.chichi  { grid-column: 2 / 3; grid-row: 1 / 2; }
+.member.haha    { grid-column: 3 / 4; grid-row: 1 / 2; }
+.member.ane     { grid-column: 1 / 2; grid-row: 2 / 3; }
+.member.watashi { grid-column: 2 / 3; grid-row: 2 / 3; }
+.member.otouto  { grid-column: 3 / 4; grid-row: 2 / 3; }
+.member.imouto  { grid-column: 4 / 5; grid-row: 2 / 3; }
+
+.member.watashi::after {
+  content: "💕";
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.4rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50%      { transform: translateX(-50%) scale(1.25); }
+}
+
+/* =====  PERKENALAN (di bawah bagan) ===== */
+.introduction {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #ffd54f;
+  border-radius: 25px;
+  padding: 30px 40px 25px;
+  margin-top: 80px;
+  max-width: 720px;
+  width: 100%;
+  box-shadow:
+    0 10px 30px rgba(245, 127, 23, 0.2),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.8);
+  animation: cardIn 0.8s ease-out;
+}
+
+.introduction::before {
+  content: "🎀";
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  background: #fffde7;
+  padding: 0 12px;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.introduction p {
+  font-size: 1.15rem;
+  color: #5d4037;
+  line-height: 2;
+  text-align: center;
+  letter-spacing: 1.5px;
+  padding: 4px 0;
+  transition: transform 0.25s ease, color 0.25s ease;
+  position: relative;
+}
+
+.introduction p::before {
+  content: "🌷";
+  margin-right: 10px;
+  opacity: 0.6;
+  font-size: 0.9rem;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  display: inline-block;
+}
+
+.introduction p:hover {
+  color: #e65100;
+  transform: translateX(4px);
+}
+
+.introduction p:hover::before {
+  opacity: 1;
+  transform: scale(1.3) rotate(-10deg);
+}
+
+.introduction p + p {
+  border-top: 1px dashed rgba(255, 213, 79, 0.6);
+  padding-top: 8px;
+  margin-top: 4px;
+}
+
+/* ===== RESPONSIF ===== */
+@media (max-width: 900px) {
+  h1 { font-size: 2.2rem; letter-spacing: 3px; }
+  h1::before, h1::after { font-size: 1.5rem; left: -35px; }
+  h1::after { right: -35px; }
+
+  .family-tree {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 15px;
+  }
+  .member.chichi,
+  .member.haha,
+  .member.ane,
+  .member.watashi,
+  .member.otouto,
+  .member.imouto {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .member .label { font-size: 1.5rem; }
+  .photo-box { height: 160px; }
+  .member.watashi::after { display: none; }
+
+  .introduction {
+    padding: 25px 22px 20px;
+    margin-top: 50px;
+  }
+  .introduction p {
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .family-tree { grid-template-columns: 1fr; }
+  h1 { font-size: 1.8rem; }
+  h1::before, h1::after { display: none; }
+  .subtitle { font-size: 0.85rem; }
+
+  .introduction {
+    padding: 22px 16px 18px;
+    border-radius: 20px;
+    margin-top: 40px;
+  }
+  .introduction p {
+    font-size: 0.92rem;
+    line-height: 1.9;
+    letter-spacing: 0.5px;
+  }
+}
+</style>
+<body>
+
+  <h1>わたしのかぞく</h1>
+  <p class="subtitle">～ かぞくのかいそうず ～</p>
+
+  <div class="family-tree">
+
+    <div class="member chichi">
+      <div class="label">ちち</div>
+      <div class="photo-box">
+        <img src="fto bapak.jpeg" alt="ちち">
+      </div>
+    </div>
+
+    <div class="member haha">
+      <div class="label">はは</div>
+      <div class="photo-box">
+        <img src="foto mamak.jpeg" alt="はは">
+      </div>
+    </div>
+
+    <div class="member ane">
+      <div class="label">あね</div>
+      <div class="photo-box">
+        <img src="fto lilis.jpeg" alt="あね">
+      </div>
+    </div>
+
+    <div class="member watashi">
+      <div class="label">わたし</div>
+      <div class="photo-box">
+        <img src="fto lois.jpeg" alt="わたし">
+      </div>
+    </div>
+
+    <div class="member otouto">
+      <div class="label">おとうと</div>
+      <div class="photo-box">
+        <img src="fto dapa.jpeg" alt="おとうと">
+      </div>
+    </div>
+
+    <div class="member imouto">
+      <div class="label">いもうと</div>
+      <div class="photo-box">
+        <img src="fto ita.jpeg" alt="いもうと">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="introduction">
+    <p>これは わたしの かぞくです。</p>
+    <p>わたしの かぞくは ろくにんです。</p>
+    <p>わたしと ちちと ははと あねと おとうとと いもうとです。</p>
+    <p>わたしは よんにん きょうだいです。</p>
+    <p>あねと おとうとと いもうとです。</p>
+    <p>わたしは にばんめです。</p>
+    <p>わたしは まんなかです。</p>
+  </div>
+
+</body>
+</html>
